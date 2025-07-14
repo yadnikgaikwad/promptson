@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useIsMobile } from '../hooks/use-mobile';
 
 /**
  * FollowingPointerSegmentedControl
@@ -19,6 +21,8 @@ export default function FollowingPointerSegmentedControl({
   const containerRef = useRef(null);
   const [soonLabel, setSoonLabel] = useState({ show: false, left: 0, width: 0 });
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const isMobile = useIsMobile();
+  const [expanded, setExpanded] = useState(false);
 
   // Update soon label position
   const updateSoonLabel = (index, show) => {
@@ -30,6 +34,66 @@ export default function FollowingPointerSegmentedControl({
       setSoonLabel({ show, left: left - containerLeft + width / 2, width });
     }
   };
+
+  // Only show collapsible UI on mobile
+  if (isMobile) {
+    return (
+      <div
+        ref={containerRef}
+        className={`relative flex bg-zinc-800 rounded-xl p-1 gap-1 ${className} flex-col sm:flex-row sm:gap-1 w-full sm:w-fit overflow-visible z-50 mt-6 sm:mt-0`}
+        style={{ minWidth: 220 }}
+      >
+        <div className="flex w-full items-center">
+          <button
+            className={`relative z-10 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-150 min-w-[100px] text-center bg-white text-black w-full mb-2 sm:mb-0`}
+            onClick={() => {
+              if (!disabledIndices.includes(0)) onChange(0);
+            }}
+            aria-disabled={disabledIndices.includes(0)}
+            tabIndex={disabledIndices.includes(0) ? -1 : 0}
+          >
+            {options[0]}
+          </button>
+          <button
+            className="ml-2 flex items-center justify-center rounded-lg bg-zinc-700 text-white px-2 h-10 w-10"
+            style={{ alignSelf: 'center', marginBottom: '5px', marginTop: '0' }}
+            aria-label={expanded ? 'Collapse' : 'Expand'}
+            onClick={() => setExpanded(e => !e)}
+            tabIndex={0}
+            type="button"
+          >
+            {expanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+        </div>
+        {expanded && (
+          <div className="flex flex-col w-full mt-2">
+            {options.slice(1).map((label, idx) => {
+              const realIdx = idx + 1;
+              const isDisabled = disabledIndices.includes(realIdx);
+              return (
+                <button
+                  key={label}
+                  className={`relative z-10 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-150 min-w-[100px] text-center w-full mb-2 bg-transparent text-white hover:bg-white/20 hover:text-white ${isDisabled ? 'bg-zinc-700 text-zinc-400 cursor-not-allowed opacity-60' : ''}`}
+                  onClick={e => {
+                    if (isDisabled) {
+                      e.preventDefault();
+                      return;
+                    }
+                    onChange(realIdx);
+                  }}
+                  aria-disabled={isDisabled}
+                  tabIndex={isDisabled ? -1 : 0}
+                  disabled={isDisabled}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
