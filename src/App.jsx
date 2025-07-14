@@ -9,12 +9,15 @@ import SignUp from './components/SignUp.jsx';
 import JsonPromptFormatter from './components/JsonPromptFormatter.jsx';
 import SavedPromptsPage from './components/SavedPromptsPage.jsx';
 import './App.css'
+import { useIsMobile } from './hooks/use-mobile';
+import { Menu, X } from 'lucide-react';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // overlay closed by default
   const [sidebarExpanded, setSidebarExpanded] = useState(false); // minimized by default
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -27,6 +30,34 @@ function App() {
           <AgentStatusIndicator />
         </div>
       </div>
+      {/* Mobile Sidebar Open Button */}
+      {isMobile && (
+        <button
+          className="mobile-sidebar-open-btn"
+          aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
+          style={{
+            position: 'fixed',
+            top: 25, // below the navbar, above segmented bar
+            left: 8,
+            zIndex: 4000,
+            background: 'rgba(16,16,18,0.95)',
+            border: 'none',
+            borderRadius: '8px',
+            width: 34,
+            height: 34,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)',
+            color: '#fff',
+            cursor: 'pointer',
+            pointerEvents: 'auto',
+          }}
+          onClick={() => setSidebarOpen(open => !open)}
+        >
+          {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      )}
       <style>{`
         .navbar-fixed {
           position: fixed;
