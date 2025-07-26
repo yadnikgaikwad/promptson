@@ -45,7 +45,7 @@ function Login({ setIsLoggedIn, setUser }) {
         // Set user and isLoggedIn in parent
         setUser(authData.user);
         setIsLoggedIn(true);
-        navigate('/');
+        navigate('/app/');
       }
     } catch (err) {
       setError('An unexpected error occurred');
@@ -137,7 +137,7 @@ function Login({ setIsLoggedIn, setUser }) {
           <Button
             variant="outline"
             className="w-full bg-[#18181b] border border-[#23232a] text-white hover:bg-[#23232a] hover:text-white"
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/app/signup')}
           >
             Create account
           </Button>

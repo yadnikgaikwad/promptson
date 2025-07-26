@@ -55,7 +55,7 @@ function SignUp() {
       } else {
         setSuccess(true);
         setTimeout(() => {
-          navigate('/login');
+          navigate('/app/login');
         }, 1500);
       }
     } catch {
@@ -199,7 +199,7 @@ function SignUp() {
           <Button
             variant="outline"
             className="w-full bg-[#18181b] border border-[#23232a] text-white hover:bg-[#23232a] hover:text-white"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/app/login')}
           >
             Back to Login
           </Button>
