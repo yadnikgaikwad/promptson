@@ -78,5 +78,7 @@ Contributions are welcome! Please open issues or pull requests for bug fixes, fe
 4. Push to the branch (`git push origin feature/YourFeature`)
 5. Open a pull request
 
+![Alt](https://repobeats.axiom.co/api/embed/890a3b50a3c2718c4e28092cdeda2d2f2d6ded16.svg "Repobeats analytics image")
+
 ## License
 [MIT](LICENSE) © 2025 Promptson 
